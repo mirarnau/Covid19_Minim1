@@ -17,7 +17,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,14 +56,31 @@ public class Covid19Service {
             manager.vacunar(vacunacion4);
 
             Seguimiento seguimiento1 = new Seguimiento("Arnau", "5/10/2021", "Evolución OK");
-            Seguimiento seguimiento2 = new Seguimiento("Arnau", "10/10/2021", "Evolución OK");
+            Seguimiento seguimiento2 = new Seguimiento("Arnau", "10/10/2021", "Evolución PERF");
 
             manager.addSeguimiento(seguimiento1);
             manager.addSeguimiento(seguimiento2);
         }
     }
 
+    @Path("test/{idPersona}")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public int test(@PathParam("idPersona") String idPersona) {
+        return manager.getListaSeguimientos(idPersona).size();
+    }
+
     //----------------------------------------------
+
+    @Path("basic")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getIt() {
+        return "OK!";
+    }
+
+    //----------------------------------------------
+
     @POST
     @ApiOperation(value = "Vacunar a una persona", notes = "asdasd")
     @ApiResponses(value = {
@@ -94,8 +110,8 @@ public class Covid19Service {
     })
     @Path("/vacunaciones/marcas")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response listadoMarcasVacunas(Vacuna[] arrayVacunas){
-        Vacuna[] listaVacunasOrdenadas = this.manager.listadoMarcasVacunas(this.vacunasDisponibles);
+    public Response listadoMarcasVacunas(){
+        Vacuna[] listaVacunasOrdenadas = this.manager.listadoMarcasVacunas();
         GenericEntity<Vacuna[]> entity = new GenericEntity<Vacuna[]>(listaVacunasOrdenadas){};
 
         if (listaVacunasOrdenadas.length > 0){
@@ -120,7 +136,7 @@ public class Covid19Service {
         int res = this.manager.listarVacunaciones();
         List<Vacunacion> listaVacunacionesOrdenada = this.manager.getListaVacunaciones();
         GenericEntity<List<Vacunacion>> entity = new GenericEntity<List<Vacunacion>>(listaVacunacionesOrdenada){};
-        if (res == 0){
+        if (listaVacunacionesOrdenada.size() > 0){
 
             return Response.status(201).entity(entity).build();
         }
@@ -156,7 +172,7 @@ public class Covid19Service {
     @ApiOperation(value = "Get lista de seguimientos de una persona.", notes = "asdasd")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response = Vacunacion.class, responseContainer="List"),
-            @ApiResponse(code = 404, message= "ERRROR, no ae han realizado seguimientos sobre esa persona todavía")
+            @ApiResponse(code = 404, message= "ERRROR, no se han realizado seguimientos sobre esa persona todavía")
     })
     @Path("/Seguimientos/get/{id_persona}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -164,7 +180,7 @@ public class Covid19Service {
         /** Comprovamos si la persona tiene seguimientos. */
         List<Seguimiento> listaSeguimientos = this.manager.getListaSeguimientos(idPersona);
         GenericEntity<List<Seguimiento>> entity = new GenericEntity<List<Seguimiento>>(listaSeguimientos){};
-        if (listaSeguimientos != null){
+        if (listaSeguimientos.size() > 0){
             return Response.status(201).entity(entity).build();
         }
         else{

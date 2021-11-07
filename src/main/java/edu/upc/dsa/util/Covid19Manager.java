@@ -10,7 +10,7 @@ import java.util.List;
 public interface Covid19Manager {
     void vacunar (Vacunacion vacunacion);
     int listarVacunaciones ();
-    Vacuna[] listadoMarcasVacunas(Vacuna[] arrayVacunas); /**Lista las marcas ordenadas descendentemente por el número de vacunas aplicadas.*/
+    Vacuna[] listadoMarcasVacunas(); /**Lista las marcas ordenadas descendentemente por el número de vacunas aplicadas.*/
     void addSeguimiento (Seguimiento seguimiento);
     List<Seguimiento> getListaSeguimientos (String idPersona);
     void addListaVacunas (Vacuna[] listVacunasDisponibles);

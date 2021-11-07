@@ -68,7 +68,7 @@ public class Covid19ManagerImpl implements Covid19Manager {
         }
     }
 
-    public Vacuna[] listadoMarcasVacunas (Vacuna[] arrayVacunas){
+    public Vacuna[] listadoMarcasVacunas (){
         Vacuna[] marcasOrdenadas = this.arrayVacunas;
         Arrays.sort(marcasOrdenadas);
         Collections.reverse(Arrays.asList(marcasOrdenadas));

@@ -44,7 +44,7 @@ public class Test {
         manager.addSeguimiento(seguimiento1);
         manager.addSeguimiento(seguimiento2);
 
-        Vacuna [] vacunasOrdenadas = Covid19ManagerImpl.getInstance().listadoMarcasVacunas(vacunasDisponibles);
+        Vacuna [] vacunasOrdenadas = Covid19ManagerImpl.getInstance().listadoMarcasVacunas();
         for (Vacuna v : vacunasOrdenadas){
             System.out.println(v.getIdVacuna());
         }
@@ -53,8 +53,8 @@ public class Test {
         List<Vacunacion> listaVacunaciones = Covid19ManagerImpl.getInstance().getListaVacunaciones();
         for (Vacunacion v : listaVacunaciones){
             System.out.println("ID Vacunación: " + v.getIdVacunacion());
-            System.out.println("models.Persona vacunada: " + v.getPersonaVacunada().getIdPersona());
-            System.out.println("models.Vacuna usada: " + v.getIdVacunaUsada());
+            System.out.println("Persona vacunada: " + v.getPersonaVacunada().getIdPersona());
+            System.out.println("Vacuna usada: " + v.getIdVacunaUsada());
             System.out.println("Fecha: " + v.getFechaVacunacion());
             System.out.println("------------------");
         }
