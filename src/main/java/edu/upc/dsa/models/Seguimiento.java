@@ -1,6 +1,7 @@
 package edu.upc.dsa.models;
 
 public class Seguimiento {
+    private String idPersona;
     private String fechaSeguimiento;
     private String descripcionSeguimiento;
 
@@ -13,7 +14,9 @@ public class Seguimiento {
         this.descripcionSeguimiento = descripcionSeguimiento;
     }
 
-
+    public String getIdPersona() {
+        return idPersona;
+    }
 
     public String getFechaSeguimiento() {
         return fechaSeguimiento;
@@ -24,7 +27,8 @@ public class Seguimiento {
     }
 
     /** Constructor */
-    public Seguimiento (String fechaSeguimiento, String descripcionSeguimiento){
+    public Seguimiento (String idPersona, String fechaSeguimiento, String descripcionSeguimiento){
+        this.idPersona = idPersona;
         this.setFechaSeguimiento(fechaSeguimiento);
         this.setDescripcionSeguimiento(descripcionSeguimiento);
     }

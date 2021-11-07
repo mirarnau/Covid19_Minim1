@@ -21,7 +21,7 @@ import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.List;
 
-@Api(value = "Covid19", description = "Endpoint to Covid19 vaccination service.")
+@Api(value = "/Covid19", description = "Endpoint to Covid19 vaccination service.")
 @Path("/Covid19")
 
 public class Covid19Service {
@@ -37,14 +37,33 @@ public class Covid19Service {
             Vacuna v3 = new Vacuna("Astra Zeneca");
             this.vacunasDisponibles = new Vacuna[] {v1, v2, v3};
             manager.addListaVacunas(vacunasDisponibles);
+
+            Persona persona1 = new Persona("Arnau");
+            Persona persona2 = new Persona("Bianca");
+            Persona persona3 = new Persona("Montse");
+            Persona persona4 = new Persona("Jordi");
+            Persona persona5 = new Persona("Josep");
+
+            Vacunacion vacunacion0 = new Vacunacion(0, persona1, "Moderna", "15/07/2021");
+            Vacunacion vacunacion1 = new Vacunacion(1, persona2, "Moderna", "15/07/2021");
+            Vacunacion vacunacion2 = new Vacunacion(2, persona3, "Astra Zeneca", "15/07/2021");
+            Vacunacion vacunacion3 = new Vacunacion(3, persona4, "Moderna", "15/07/2021");
+            Vacunacion vacunacion4 = new Vacunacion(4, persona5, "Pfizer", "15/07/2021");
+
+            manager.vacunar(vacunacion0);
+            manager.vacunar(vacunacion1);
+            manager.vacunar(vacunacion2);
+            manager.vacunar(vacunacion3);
+            manager.vacunar(vacunacion4);
+
+            Seguimiento seguimiento1 = new Seguimiento("Arnau", "5/10/2021", "Evolución OK");
+            Seguimiento seguimiento2 = new Seguimiento("Arnau", "10/10/2021", "Evolución OK");
+
+            manager.addSeguimiento(seguimiento1);
+            manager.addSeguimiento(seguimiento2);
         }
     }
-    @Path("basic")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getIt() {
-        return "Got it!";
-    }
+
     //----------------------------------------------
     @POST
     @ApiOperation(value = "Vacunar a una persona", notes = "asdasd")
@@ -54,14 +73,14 @@ public class Covid19Service {
 
     })
 
-    @Path("/Vacunaciones/Vacunar")
+    @Path("/vacunaciones/vacunar")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response vacunar (String idPersona, String idVacuna, String fecha) {
-        if (manager.findVacunaById(idVacuna) == 1){
+    public Response vacunar (Vacunacion vacunacion) {
+        if (manager.findVacunaById(vacunacion.getIdVacunaUsada()) == 1){
             return Response.status(500).build();
         }
         else{
-            this.manager.vacunar(idPersona, idVacuna, fecha);
+            this.manager.vacunar(vacunacion);
             return Response.status(201).build();
         }
     }
@@ -73,7 +92,7 @@ public class Covid19Service {
             @ApiResponse(code = 201, message = "Successful", response = Vacuna.class, responseContainer="List"),
             @ApiResponse(code = 404, message= "Lista de vacunas no encontrada (primero hay que añadir las marcas de vacunas.)")
     })
-    @Path("/Vacunaciones/Marcas")
+    @Path("/vacunaciones/marcas")
     @Produces(MediaType.APPLICATION_JSON)
     public Response listadoMarcasVacunas(Vacuna[] arrayVacunas){
         Vacuna[] listaVacunasOrdenadas = this.manager.listadoMarcasVacunas(this.vacunasDisponibles);
@@ -95,7 +114,7 @@ public class Covid19Service {
             @ApiResponse(code = 201, message = "Successful", response = Vacunacion.class, responseContainer="List"),
             @ApiResponse(code = 404, message= "ERRROR, no se han realizado vacunaciones todavía.")
     })
-    @Path("/Vacunaciones/ListaVacunaciones")
+    @Path("/vacunaciones/vacunaciones")
     @Produces(MediaType.APPLICATION_JSON)
     public Response listarVacunaciones(){
         int res = this.manager.listarVacunaciones();
@@ -120,12 +139,12 @@ public class Covid19Service {
 
     })
 
-    @Path("/Seguimientos/addSeguimiento/{idPersona}")
+    @Path("/Seguimientos/add")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addSeguimiento (@PathParam("idPersona") Persona personaYaVacunada, String fechaSeguimiento, String DescripcionSeguimiento) {
+    public Response addSeguimiento (Seguimiento seguimiento) {
         /** Comprovamos que la persona realmente ya esté vacunada */
-        if (this.manager.findPersonById(personaYaVacunada.getIdPersona()) != null){
-            this.manager.addSeguimiento(personaYaVacunada, fechaSeguimiento, DescripcionSeguimiento);
+        if (this.manager.findPersonById(seguimiento.getIdPersona()) != null){
+            this.manager.addSeguimiento(seguimiento);
             return Response.status(201).build();
         }
         else{
@@ -139,9 +158,9 @@ public class Covid19Service {
             @ApiResponse(code = 201, message = "Successful", response = Vacunacion.class, responseContainer="List"),
             @ApiResponse(code = 404, message= "ERRROR, no ae han realizado seguimientos sobre esa persona todavía")
     })
-    @Path("/Seguimientos/getSeguimiento/{idPersona}")
+    @Path("/Seguimientos/get/{id_persona}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getListaSeguimientos(@PathParam("idPersona") String idPersona){
+    public Response getListaSeguimientos(@PathParam("id_persona") String idPersona){
         /** Comprovamos si la persona tiene seguimientos. */
         List<Seguimiento> listaSeguimientos = this.manager.getListaSeguimientos(idPersona);
         GenericEntity<List<Seguimiento>> entity = new GenericEntity<List<Seguimiento>>(listaSeguimientos){};

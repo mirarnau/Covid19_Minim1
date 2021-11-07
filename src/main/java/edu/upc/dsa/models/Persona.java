@@ -24,7 +24,7 @@ public class Persona {
         setIdPersona(idPersona);
     }
 
-    public void addSeguimiento (String fechaSeguimiento, String DescripcionSeguimiento){
-        this.listaSeguimientos.add(new Seguimiento(fechaSeguimiento, DescripcionSeguimiento));
+    public void addSeguimiento (Seguimiento seguimiento){
+        this.listaSeguimientos.add(seguimiento);
     }
 }

@@ -24,28 +24,21 @@ public class Covid19ManagerImpl implements Covid19Manager {
         return instance;
     }
 
-    public void vacunar(String idPersona, String idVacuna, String fecha) {
+    public void vacunar (Vacunacion vacunacion){
         /** Añadimos a la nueva persona que se ha vacunado.*/
-        Persona persona = new Persona(idPersona);
-        this.personasHashmap.put(idPersona, persona);
-
+        this.personasHashmap.put(vacunacion.getPersonaVacunada().getIdPersona(), vacunacion.getPersonaVacunada());
         /**Incrementamos el contador de usos de esa marca de vacuna.*/
         for (Vacuna v : arrayVacunas) {
-            if (v.getIdVacuna() == idVacuna) {
+            if (v.getIdVacuna() == vacunacion.getIdVacunaUsada()) {
                 v.setNumUsos(v.getNumUsos() + 1);
             }
         }
-
         /**Realizamos la vacunación, añadiéndola a la lista de vacunaciones.*/
-        if (listaVacunaciones == null) {
-            Vacunacion vacunacion = new Vacunacion(0, persona, idVacuna, fecha);
-            listaVacunaciones.add(vacunacion);
-        }
-        else{
-            Vacunacion vacunacion = new Vacunacion(listaVacunaciones.size(), persona, idVacuna, fecha);
-            listaVacunaciones.add(vacunacion);
-        }
+        listaVacunaciones.add(vacunacion);
+
     }
+
+
     /** Returns 1 if empty vaccination list, and 0 if OK  */
     public int listarVacunaciones (){
         if (this.listaVacunaciones.size() > 0) {
@@ -82,13 +75,8 @@ public class Covid19ManagerImpl implements Covid19Manager {
         return  marcasOrdenadas;
     }
 
-    public void addSeguimiento (Persona personaYaVacunada, String fechaSeguimiento, String DescripcionSeguimiento){
-        try {
-            this.personasHashmap.get(personaYaVacunada).addSeguimiento(fechaSeguimiento, DescripcionSeguimiento);
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+    public void addSeguimiento (Seguimiento seguimiento){
+        this.personasHashmap.get(seguimiento.getIdPersona()).addSeguimiento(seguimiento);
     }
 
     public List<Seguimiento> getListaSeguimientos (String idPersona){
