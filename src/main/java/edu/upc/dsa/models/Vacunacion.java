@@ -1,3 +1,5 @@
+package edu.upc.dsa.models;
+
 public class Vacunacion implements Comparable<Vacunacion>{
     private int idVacunacion;
     private Persona personaVacunada;

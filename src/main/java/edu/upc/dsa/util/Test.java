@@ -1,3 +1,8 @@
+package edu.upc.dsa.util;
+
+import edu.upc.dsa.models.Vacuna;
+import edu.upc.dsa.models.Vacunacion;
+
 import java.util.List;
 
 public class Test {
@@ -25,8 +30,8 @@ public class Test {
         List<Vacunacion> listaVacunaciones = Covid19ManagerImpl.getInstance().getListaVacunaciones();
         for (Vacunacion v : listaVacunaciones){
             System.out.println("ID Vacunación: " + v.getIdVacunacion());
-            System.out.println("Persona vacunada: " + v.getPersonaVacunada().getIdPersona());
-            System.out.println("Vacuna usada: " + v.getIdVacunaUsada());
+            System.out.println("models.Persona vacunada: " + v.getPersonaVacunada().getIdPersona());
+            System.out.println("models.Vacuna usada: " + v.getIdVacunaUsada());
             System.out.println("Fecha: " + v.getFechaVacunacion());
             System.out.println("------------------");
         }

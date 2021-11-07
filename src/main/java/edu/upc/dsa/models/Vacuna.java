@@ -1,3 +1,5 @@
+package edu.upc.dsa.models;
+
 public class Vacuna implements Comparable<Vacuna> {
     private String idVacuna;
     private int numUsos = 0;

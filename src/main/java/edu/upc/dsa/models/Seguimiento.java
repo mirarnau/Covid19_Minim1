@@ -1,3 +1,5 @@
+package edu.upc.dsa.models;
+
 public class Seguimiento {
     private String fechaSeguimiento;
     private String descripcionSeguimiento;
