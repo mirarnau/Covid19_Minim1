@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.models.auth.In;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
@@ -62,6 +63,24 @@ public class Covid19Service {
             manager.addSeguimiento(seguimiento2);
         }
     }
+
+    //----------------------------------------------
+
+    @GET
+    @ApiOperation(value = "Prova 2.", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Integer.class),
+            @ApiResponse(code = 404, message= "No seguimientos - no funcional en aquesta prova.)")
+    })
+    @Path("test2/{idPersona}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response testResponse(@PathParam("idPersona") String idPersona) {
+        Integer length = this.manager.getListaSeguimientos(idPersona).size();
+        return Response.status(201).entity(length).build();
+
+    }
+
+    //----------------------------------------------
 
     @Path("test/{idPersona}")
     @GET
@@ -171,7 +190,7 @@ public class Covid19Service {
     @GET
     @ApiOperation(value = "Get lista de seguimientos de una persona.", notes = "asdasd")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Vacunacion.class, responseContainer="List"),
+            @ApiResponse(code = 201, message = "Successful", response = Seguimiento.class, responseContainer="List"),
             @ApiResponse(code = 404, message= "ERRROR, no se han realizado seguimientos sobre esa persona todavía")
     })
     @Path("/Seguimientos/get/{id_persona}")
