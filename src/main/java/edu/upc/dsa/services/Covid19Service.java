@@ -104,15 +104,16 @@ public class Covid19Service {
     @ApiOperation(value = "Vacunar a una persona", notes = "asdasd")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful"),
-            @ApiResponse(code = 500, message = "ERROR, Vacuna no existente.")
+            @ApiResponse(code = 400, message = "ERROR, Vacuna no existente.")
 
     })
 
     @Path("/vacunaciones/vacunar")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response vacunar (Vacunacion vacunacion) {
+        System.out.println(vacunacion.getIdVacunaUsada());
         if (manager.findVacunaById(vacunacion.getIdVacunaUsada()) == 1){
-            return Response.status(500).build();
+            return Response.status(400).build();
         }
         else{
             this.manager.vacunar(vacunacion);
@@ -197,6 +198,7 @@ public class Covid19Service {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getListaSeguimientos(@PathParam("id_persona") String idPersona){
         /** Comprovamos si la persona tiene seguimientos. */
+        System.out.println(idPersona);
         List<Seguimiento> listaSeguimientos = this.manager.getListaSeguimientos(idPersona);
         GenericEntity<List<Seguimiento>> entity = new GenericEntity<List<Seguimiento>>(listaSeguimientos){};
         if (listaSeguimientos.size() > 0){

@@ -23,6 +23,7 @@ public class Persona {
     public Persona (String idPersona){
         setIdPersona(idPersona);
     }
+    public Persona(){};
 
     public void addSeguimiento (Seguimiento seguimiento){
         this.listaSeguimientos.add(seguimiento);

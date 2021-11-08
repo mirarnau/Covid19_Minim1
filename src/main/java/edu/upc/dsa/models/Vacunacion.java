@@ -45,6 +45,7 @@ public class Vacunacion implements Comparable<Vacunacion>{
         setIdVacunaUsada(idVacunaUsada);
         setFechaVacunacion(fechaVacunacion);
     }
+    public Vacunacion(){}
     /**Comparador según orden de realización (mediante el ID de la vacunación). Ordena de menor a mayor. */
     public int compareTo (Vacunacion v){
         return (int) (this.getIdVacunacion() - v.getIdVacunacion());

@@ -24,6 +24,7 @@ public class Vacuna implements Comparable<Vacuna> {
     public Vacuna (String idVacuna){
         setIdVacuna(idVacuna);
     }
+    public Vacuna(){};
 
     /**Comparador según número de usos de cada marca de vacuna. */
     public int compareTo (Vacuna v){

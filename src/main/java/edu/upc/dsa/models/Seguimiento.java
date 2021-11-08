@@ -32,4 +32,8 @@ public class Seguimiento {
         this.setFechaSeguimiento(fechaSeguimiento);
         this.setDescripcionSeguimiento(descripcionSeguimiento);
     }
+
+    public Seguimiento(){
+    }
+
 }
